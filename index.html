@@ -3,15 +3,14 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Bilibili用户查询</title>
-    <!--项目地址https://app.haotown.cn/bilibili/    HAOTOWN 疯狂减肥带-->
+    <title>Bilibili用户查询-HAOTOWN.CN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type='text/javascript' src='https://upcdn.b0.upaiyun.com/libs/jquery/jquery-1.7.2.min.js'></script>
-    <link rel="stylesheet" href="reset.css" />
-    <style type="text/css">html{ height: 100%; } body{ height: 100%; background-color: #F75378;overflow-x: hidden;} .content{ margin-left: auto; margin-right: auto; width: 320px; } .content-logo{ width: 320px; height: 135px; margin: 30px auto; background-image: url(logo.jpg); background-size:contain;} .content-input{ text-align: center; } .content-out{ margin: 120px auto 0px auto; width: 400px; display: none; } #getuser{ width: 80px; } .title{ text-align: center; } .face{ height: 90px; width: 90px; border-radius: 50%; background-size:contain; background-image: url(http://i2.hdslb.com/bfs/face/e4bf0436919449d6215876959795610beeb822e0.gif); }.eero{text-align: center;}</style></head>
+    <style type="text/css">body{ background-color: #F75378;overflow-x: hidden;} .content{ margin-left: auto; margin-right: auto; width: 320px; } .content-logo{ width: 320px; height: 135px; margin: 30px auto; background-image: url(logo.jpg); background-size:contain;} .content-input{ text-align: center; } #tijiao{height: 24px;border: 1px solid #0381AA;border-radius: 2px;    background-color: #00A7DE;color:#fff;}.content-out{ margin: 120px auto 0px auto;padding-bottom:20px; width: 400px; display: none; } #getuser{ width: 150px; } .title{ text-align: center; } .face{ height: 90px; width: 90px; border-radius: 50%; background-size:contain; background-image: url(http://i2.hdslb.com/bfs/face/e4bf0436919449d6215876959795610beeb822e0.gif);border: 2px solid #fff;}.eero{text-align: center;}.back{position: fixed;right: 0px;bottom: 0px;}@media (max-width: 1920px) {body{zoom:1.4;}@media (max-width: 1024px) {body{zoom:1.2;}@media (max-width: 400px) {body{zoom:0.9;}</style></head>
   
   <body>
     <p class="title">BIlibili查询用户</p>
+	<div class="back"><a href="https://www.haotown.cn">返回博客↑↑</a></div>
     <div class="content">
       <div class="content-get">
         <div class="content-logo"></div>
@@ -60,7 +59,7 @@
       function getuserinfo() {
         user = document.getElementById('getuser').value;
         $.ajax({
-          url: "json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
+          url: "https://app.haotown.cn/json/json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
           dataType: "json",
           async: true,
           success: function(result) {
@@ -68,10 +67,11 @@
             console.log(result.mid);
 			if (result.code=="-500")
 			{
-			$(".eero").html("用户不存在");
+			$(".eero").html("</br>用户不存在");
 			$(".content-out").css("display", "none");
 			}
 			else{
+			$(".eero").html("");
             var space = "http://space.bilibili.com/" + result.mid + "/";
             $("#space").html("<a href='"+space+"'>"+space+"</a>");
 			if (result.sex=="")
