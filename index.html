@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Bilibili用户查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type='text/javascript' src='https://upcdn.b0.upaiyun.com/libs/jquery/jquery-1.7.2.min.js'></script>
+    <link rel="stylesheet" href="reset.css" />
+    <style type="text/css">html{ height: 100%; } body{ height: 100%; background-color: #F75378;overflow-x: hidden;} .content{ margin-left: auto; margin-right: auto; width: 320px; } .content-logo{ width: 320px; height: 135px; margin: 30px auto; background-image: url(logo.jpg); background-size:contain;} .content-input{ text-align: center; } .content-out{ margin: 120px auto 0px auto; width: 400px; display: none; } #getuser{ width: 80px; } .title{ text-align: center; } .face{ height: 90px; width: 90px; border-radius: 50%; background-size:contain; background-image: url(http://i2.hdslb.com/bfs/face/e4bf0436919449d6215876959795610beeb822e0.gif); }.eero{text-align: center;}</style></head>
+  
+  <body>
+    <p class="title">BIlibili查询用户</p>
+    <div class="content">
+      <div class="content-get">
+        <div class="content-logo"></div>
+        <div class="content-input">
+          <input name="user" type="text" id="getuser" placeholder="B站用户名" size="8" onkeydown="subCheck();">
+          <input type="submit" class="but" id="tijiao" value="查询" onclick="getuserinfo()"></div>
+      </div>
+	   <div class="eero"></div>
+      <div class="content-out">
+	 
+        <table width="320" border="0">
+          <tr>
+            <td width="109">用户名</td>
+            <td id="name" width="107">未知</td>
+            <td width="90" rowspan="3">
+              <div class="face" id="face"></div>
+            </td>
+          </tr>
+          <tr>
+            <td height="30">性别</td>
+            <td id="sex">扶她</td></tr>
+          <tr>
+            <td>生日</td>
+            <td id="birthday">1999-9-9</td></tr>
+        </table>
+        <table width="320" border="0">
+          <tr>
+            <td>个人介绍：</td></tr>
+          <tr>
+            <td id="sign">我可不是扶她！因为我真的不存在</td></tr>
+          <tr>
+            <td>空间地址：</td></tr>
+          <tr>
+            <td id="space">
+              <a href="http://space.bilibili.com/7058853">http://space.bilibili.com/7058853</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <script>function subCheck() {
+        if (event.keyCode == 13) {
+          document.all("tijiao").click();
+        }
+      }
+
+      function getuserinfo() {
+        user = document.getElementById('getuser').value;
+        $.ajax({
+          url: "https://app.haotown.cn/json/json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
+          dataType: "json",
+          async: true,
+          success: function(result) {
+            console.log(result);
+            console.log(result.mid);
+			if (result.code=="-500")
+			{
+			$(".eero").html("用户不存在");
+			$(".content-out").css("display", "none");
+			}
+			else{
+            var space = "http://space.bilibili.com/" + result.mid + "/";
+            $("#space").html("<a href='"+space+"'>"+space+"</a>");
+			if (result.sex=="")
+			{
+			$("#sex").html("未知");
+			}
+			else{
+			$("#sex").html(result.sex);
+			}
+            $("#name").html(result.name);
+            
+            $("#birthday").html(result.birthday);
+	
+			if (result.sign=="")
+			{
+			$("#sign").html("我很懒 真的");
+			}
+            else{
+			$("#sign").html(result.sign);
+			}
+            $("#face").css("background-image", "url(" + result.face + ")");
+            $(".content-out").css("display", "block");
+		  }
+          },
+          error: function() {
+            console.log("Stay simple,Stay naive.")
+          }
+        });
+      }</script>
+  </body>
+
+</html>
