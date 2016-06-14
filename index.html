@@ -4,6 +4,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Bilibili用户查询</title>
+    <!--项目地址https://app.haotown.cn/bilibili/    HAOTOWN 疯狂减肥带-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type='text/javascript' src='https://upcdn.b0.upaiyun.com/libs/jquery/jquery-1.7.2.min.js'></script>
     <link rel="stylesheet" href="reset.css" />
@@ -59,7 +60,7 @@
       function getuserinfo() {
         user = document.getElementById('getuser').value;
         $.ajax({
-          url: "https://app.haotown.cn/json/json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
+          url: "json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
           dataType: "json",
           async: true,
           success: function(result) {
