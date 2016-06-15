@@ -7,7 +7,7 @@ function subCheck() {
       function getuserinfo() {
         user = document.getElementById('getuser').value;
         $.ajax({
-          url: "https://app.haotown.cn/json/json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
+          url: "json.php?q=http://api.bilibili.cn/userinfo?user=" + user,
           dataType: "json",
           async: true,
           success: function(result) {
