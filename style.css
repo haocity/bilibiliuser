@@ -1,0 +1,44 @@
+body {
+	background-color: #F75378;
+	overflow-x: hidden;
+	text-align: center;
+}
+.button {
+	height: 40px;
+	border: 1px solid #0381AA;
+	border-radius: 2px;
+	background-color: #00A7DE;
+	color: #fff;
+	padding: 10px 30px;
+	cursor: hand;
+}
+a {
+	color: rgb(255, 255, 255);
+	text-decoration: none;
+}
+.content {
+	margin-left: auto;
+	margin-right: auto;
+	width: 320px;
+}
+.content-logo {
+	width: 320px;
+	height: 135px;
+	margin: 30px auto;
+	background-image: url(img/logo.jpg);
+	background-size:contain;
+}
+.content-input {
+	text-align: center;
+}
+.footer {
+	position: fixed;
+	right:0px;
+	bottom: 0px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.23);
+}
+.right {
+	float: right;
+}
+@media (max-width: 1920px) {body{zoom:1.4;}@media (max-width: 1024px) {body{zoom:1.2;}@media (max-width: 400px) {body{zoom:0.9;}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>Bilibili用户查询-HAOTOWN.CN</title>
+	<link rel="shortcut icon" href="1.gif"/>
+	<link rel="bookmark" href="1.gif"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, av-scalable=no">
+    <script type='text/javascript' src='https://upcdn.b0.upaiyun.com/libs/jquery/jquery-1.7.2.min.js'></script>
+    <style type="text/css">body{ background-color: #F75378;overflow-x: hidden;} a{color: rgb(255, 255, 255);text-decoration: none;}.content{ margin-left: auto; margin-right: auto; width: 320px; } .content-logo{ width: 320px; height: 135px; margin: 30px auto; background-image: url(img/logo.jpg); background-size:contain;} .content-input{ text-align: center; } #tijiao{height: 24px;border: 1px solid #0381AA;border-radius: 2px;    background-color: #00A7DE;color:#fff;}.content-out{ margin: 120px auto 0px auto;padding-bottom:20px; width: 400px; display: none; } #getav{ width: 150px; } .title{ text-align: center; } .face{ height: 100px; width: 160px; border-radius: 5px;    background-size: contain;  background-image: url(http://i2.hdslb.com/bfs/face/e4bf0436919449d6215876959795610beeb822e0.gif);border: 2px solid #fff;}.eero{text-align: center;}.footer{position: fixed;right:0px;bottom: 0px;width: 100%;background-color: rgba(0, 0, 0, 0.23);}.right{float: right;}@media (max-width: 1920px) {body{zoom:1.4;}@media (max-width: 1024px) {body{zoom:1.2;}@media (max-width: 400px) {body{zoom:0.9;}
+	
+	
+	
+	</style></head>
+  
+  <body>
+    <p class="title">BIlibili视频查询</p>
+	<div class="footer">
+		<div class="right">
+		<a href="user.html">用户查询</a>
+		<a href="video.html">视频查询</a>
+		<a href="https://www.haotown.cn">返回博客</a>
+		</div>
+	</div>
+    <div class="content">
+      <div class="content-get">
+        <div class="content-logo"></div>
+        <div class="content-input">
+          <input name="av" type="text" id="getav" placeholder="av号(不带av)" size="8" >
+          <input type="submit" class="but" id="tijiao" value="查询" onclick="getavinfo()"></div>
+      </div>
+	   <div class="eero"></div>
+      <div class="content-out">
+		<div id="title"></div>
+        <table width="320" border="0">
+		
+          <tr>
+            <td width="109">上传者</td>
+            <td id="name" width="107">未知</td>
+            <td width="90" rowspan="3">
+              <div class="face" id="face"></div>
+            </td>
+          </tr>
+          <tr>
+            <td height="30">Cid编号</td>
+            <td id="cid">0000</td></tr>
+          <tr>
+            <td>上传时间</td>
+            <td id="birthday">1999-9-9</td></tr>
+        </table>
+        <table width="320" border="0">
+          <tr>
+            <td>视频介绍：</td></tr>
+          <tr>
+            <td id="sign">我可不是扶她！因为我真的不存在</td></tr>
+          <tr>
+            <td>空间地址：</td></tr>
+          <tr>
+            <td id="space">
+              <a href="http://space.bilibili.com/7058853">http://space.bilibili.com/7058853</a></td>
+          </tr>
+		  <tr>
+            <td>视频下载地址：</td></tr>
+          <tr id="down">
+            
+          </tr>
+        </table>
+      </div>
+    </div>
+	
+    <script>
+    var e;
+var e2;
+jQuery(function () {
+	$('#getav').keyup(function (event) {
+		if (event.keyCode == "13") {　　　　　
+			document.getElementById("tijiao").click();
+			return false;
+		}
+	});
+});
+
+function getavinfo() {
+	e = 0;
+	av = document.getElementById('getav').value;
+	$.ajax({
+		url: "json.php?q=http://bilibili-service.daoapp.io/view/" + av,
+		dataType: "json",
+		async: true,
+		success: function (result) {
+				console.log(result);
+				var list = result.list;
+				console.log(list);
+				
+				if (result.code == "VIDEO_NOT_FOUND") {
+					$(".eero").html("</br>视频不存在");
+					$(".content-out").css("display", "none");
+				} else {
+					$(".eero").html("");
+					var space = "http://space.bilibili.com/" + result.mid + "/";
+					$("#space").html("<a href='" + space + "'>" + space + "</a>");
+					$("#title").html("视频:" + result.title);
+					$("#cid").html(list[0].cid);
+					$("#name").html(result.author);
+					$("#birthday").html(result.created_at);
+					e2 = getJsonObjLength(list);
+					if (result.sign == "") {
+						$("#sign").html("我很懒 真的");
+					} else {
+						$("#sign").html(result.description);
+					}
+					$("#face").css("background-image", "url(" + result.pic + ")");
+					$(".content-out").css("display", "block");
+					var vidoesnum = getJsonObjLength(list) - 1;
+					var i = setInterval(function () {
+						getdown(list[vidoesnum]);
+						vidoesnum--;
+						if (vidoesnum == -1) clearInterval(i)
+					}, 601);
+				}
+			},
+			error: function () {
+				console.log("Stay simple,Stay naive.")
+			}
+	});
+}
+
+function getJsonObjLength(jsonObj) {
+	var Length = 0;
+	for (var item in jsonObj) {
+		Length++;
+	}
+	return Length;
+}
+
+function getdown(list) {
+	$.ajax({
+		url: "https://app.haotown.cn/json/testjson.php?q=http://bilibili-service.daoapp.io/video/" + list.cid,
+		dataType: "json",
+		async: true,
+		success: function (vido) {
+				console.log(vido);
+				var down = vido.url;
+				if(down==undefined)
+				{
+					$("#down").after("<div>P" + e2+"视频不存在</div>");
+				}
+				else{
+				$("#down").after("<div><a download='vido' href='" + down + "'>点我下载P" + e2+"--" + list.part + "</a></div>");
+				}
+				e2--;
+			},
+			error: function () {
+				console.log("获取视频失败.");
+				$("#down").after("<div>P" + e2+"解析失败</div>");
+				e2--;
+				
+			}
+	});
+}
+	  </script>
+	  
+  </body>
+
+</html>
